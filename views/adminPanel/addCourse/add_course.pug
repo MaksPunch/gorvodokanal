@@ -1,0 +1,46 @@
+extends ../layout.pug 
+
+block style 
+    style 
+        include add_course.css
+
+block content
+    form#createSection(action=`/admin/createSection/` method='post')
+    form#addCourseForm.d-flex.flex-column.gap-3
+        .d-flex.flex-column
+            h5 Заголовок курса
+            input.form-control(name='name' type='text' for='addTestForm' value=`${course_name}`)
+        .d-flex.flex-column.gap-1
+            h5 Темы в курсе
+            ul.list-group
+                each section in course_sections
+                    a.list-group-item.list-group-item-action(href=`/admin/sectionPage/${section.id}` id=`${section.id}`) #{section.name}
+    .d-flex.gap-3.mt-3
+        input#createSection.btn.btn-secondary.align-self-start(type='button' value="Создать тему" for='createSection')
+        input.btn.btn-primary.align-self-start#addCourse(type='submit' value='Сохранить' for='addCourseForm')
+        button.btn.btn-danger#deleteCourse(type='button') Удалить курс
+
+block script 
+    script
+        include add_course.js
+    script.
+        $('#addCourse').on('click', () => {
+            $('#addCourseForm').submit();
+        })
+        $('#addCourseForm').on('submit', function(e) {
+            e.preventDefault();
+            let formData = Object.fromEntries(new FormData(e.target).entries())
+            $.post(`/admin/addCourse/#{id}`, formData)
+            .success(() => {
+                console.log('success')
+            })
+        })
+        $('#deleteCourse').on('click', () => {
+            $.ajax({
+                url: `/admin/deleteCourse/#{id}`,
+                type: 'DELETE',
+                success: function(result) {
+                    window.location.href = '/'
+                }
+            });
+        })

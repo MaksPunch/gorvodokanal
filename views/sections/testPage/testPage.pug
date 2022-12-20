@@ -1,0 +1,62 @@
+extends ../layout.pug
+
+block style 
+    style 
+        include testPage.css
+
+block aside
+    .d-flex.flex-column.justify-content-center.gap-1.w-15
+    each course in courses 
+        .d-flex.flex-column
+            h2.fs-6.course_name #{course.name}
+            ol.gap-2#courseSections(type=1)
+                each section in course.sections
+                    li.font-weight-normal
+                        a(href=`/sectionPage/${section.id}`).text-dark.text-decoration-none #{section.name}
+
+block content
+    form#postAnswers
+        each question in questions
+            .d-flex.flex-column
+                h1.questionHeader.mb-4 #{question.count} #{question.name}
+                if question.type == 'radio'
+                    p Выберите один из вариантов списка
+                else if question.type == 'checkbox'
+                    p Выберите несколько вариантов из списка
+                else if question.type == 'text'
+                    p Дайте развёрнутый ответ
+                div#answerWrapper(class=`${question.count}`)
+                    each answer in question.answers 
+                        .form-check
+                            input.form-check-input(type=`${question.type}` name=`${question.count}` for='postAnswers' id=`${question.count}-${answer[2]}` value=`${answer[0]}`)
+                            label.form-check-label(for=`${question.count}-${answer[2]}`) #{answer[2]}. #{answer[0]}
+    input.btn.btn-primary.mt-4#postAnswersBtn(type='submit' value='Отправить' for='postAnswers')
+
+block script 
+    script.
+        $('#postAnswersBtn').on('click', () => {
+            $('#postAnswers').submit()
+            
+        })
+        $('#postAnswers').on('submit', function(e) {
+            e.preventDefault()
+            let formData = {
+                answers: []
+            }
+            $('div#answerWrapper').each(function(){
+                let question = {
+                    question_number: $(this).attr('class'),
+                    answers: []
+                }
+                let $this = $(this)
+                $this.find('input:checked').each(function(){
+                    question.answers.push($(this).val());
+                });
+                formData.answers.push(question)
+            })
+            console.log(formData)
+            $.post(`#{id}`, formData)
+            .success(() => {
+                window.location.href = `/sectionPage/testPage/#{id}/result`
+            })
+        })

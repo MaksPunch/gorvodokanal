@@ -1,0 +1,77 @@
+extends ../layout.pug 
+
+block style
+    style
+        include test_constructor.css
+
+block content
+    form#addTest
+    div.addTest.d-flex.flex-column.gap-2
+        div#questionName
+            h5 Название вопроса
+            textarea.form-control#name(name='name' placeholder='название вопроса' for='addTest')
+        div#chooseQuestionType
+            h5 Выберите тип вопроса
+            .form-check.form-check-inline
+                input.form-check-input#questionType1(type='radio' name='questionType' value='1')
+                label.form-check-label(for='questionType1') Один из списка
+            .form-check.form-check-inline
+                input.form-check-input#questionType2(type='radio' name='questionType' value='2' checked)
+                label.form-check-label(for='questionType2') Несколько из списка
+            .form-check.form-check-inline
+                input.form-check-input#questionType3(type='radio' name='questionType' value='3')
+                label.form-check-label(for='questionType3') Развернутый ответ
+        div#questionAnswers.d-flex.flex-column.gap-2
+            h5 Варианты ответов:
+            div.input-group
+                input.form-control.answer#answer1(type='text' name='answer1' placeholder='вариант ответ 1' for='addTest' disabled=false)
+                .input-group-text
+                    input#answer1(type='checkbox' name='rightAnswer' for='addTest' value='1' disabled=false)
+            div.input-group
+                input.form-control.answer#answer2(type='text' name='answer2' placeholder='вариант ответ 2' for='addTest' disabled=false)
+                .input-group-text
+                    input#answer2(type='checkbox' name='rightAnswer' for='addTest' value='2' disabled=false)
+            div.input-group
+                input.form-control.answer#answer3(type='text' name='answer3' placeholder='вариант ответ 3' for='addTest' disabled=false)
+                .input-group-text
+                    input#answer3(type='checkbox' name='rightAnswer' for='addTest' value='3' disabled=false)
+            div.input-group
+                input.form-control.answer#answer4(type='text' name='answer4' placeholder='вариант ответ 4' for='addTest' disabled=false)
+                .input-group-text
+                    input#answer4(type='checkbox' name='rightAnswer' for='addTest' value='4' disabled=false)
+        button.align-self-start.btn.btn-primary#addAnswer(type='button') Добавить вариант ответа
+        .d-flex.gap-3
+            button.btn.btn-primary#addQuestion(type='button') Добавить вопрос
+            button.btn.btn-primary#exit(type='button') Выйти
+
+block questions_table
+    h2.mt-4 Вопросы
+    table#questionsTable.table.table-hover.table-bordered
+        tr
+            th Название вопроса
+            th Варианты ответов
+        each question in questions
+            tr(id=`question-${question.id}`)
+                th #{question.name}
+                th
+                    ol
+                        each answer in question.answers
+                            if answer[1] == 1
+                                li.right_answer #{answer[0]}
+                            else
+                                li #{answer[0]}
+                    button.btn.btn-danger.deleteQuestion(id=`question-${question.id}`) Удалить
+
+block script
+    script. 
+        function postData(formData) {
+            $.post('/admin/addQuestion/#{id}', formData)
+                .success(function(data){
+                    addTableRow(formData);
+                })
+        }
+        $('#exit').on('click', function() {
+            window.location.href = '/admin/sectionPage/#{id}'
+        })
+    script
+        include test_constructor.js

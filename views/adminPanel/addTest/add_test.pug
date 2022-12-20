@@ -1,0 +1,38 @@
+extends ../layout.pug 
+
+block style 
+    style 
+        include add_test.css
+
+block content
+    form#getPageAddQuestion(action=`/admin/addQuestion/${id}` method='get')
+    form#addTestForm
+        .d-flex.flex-column.mb-3
+            h5 Заголовок теста
+            input.form-control(name='name' type='text' for='addTestForm' value=`${test.name}`)
+        .d-flex.addTest-Btns
+            input.btn.btn-primary#addTest(type='submit' value='Сохранить' for='addTestForm')
+            input.btn.btn-primary#goToTestConstructor(type='submit' value='Перейти в конструктор тестов' for='getPageAddQuestion') 
+
+block script 
+    script
+        include add_test.js
+    script.
+        var section_id;
+        $(".form-select").change(function() {
+            section_id = $(this).children(":selected").attr("id");
+        });
+        $('#addTestForm').on('submit', function(e) {
+            e.preventDefault();
+            let formData = Object.fromEntries(new FormData(e.target).entries())
+            $.post(`/admin/addTest/#{id}`, formData)
+            .success(() => {
+                console.log('success')
+            })
+        })
+        $('#goToTestConstructor').on('click', (e) => {
+            e.preventDefault();
+            $('#getPageAddQuestion').submit();
+        })
+        
+    

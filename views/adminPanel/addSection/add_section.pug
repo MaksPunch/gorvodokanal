@@ -1,0 +1,60 @@
+extends ../layout.pug 
+
+block style 
+    style 
+        include add_section.css
+
+block content
+    form#addSectionForm.d-flex.flex-column.gap-2
+        .d-flex.flex-column
+            h5 Заголовок темы
+            input.form-control(name='name' type='text' for='addTestForm' value=`${section_name}`)
+        h5 Выбрать тест
+        select.form-select#select-test(name='test_id')
+            option(selected disabled) Тест
+            each test in tests
+                if section.test_id == test.testId
+                    option(value=`${test.testId}` selected) #{test.name}
+                else 
+                    option(value=`${test.testId}`) #{test.name}
+        h5 Выбрать курс
+        select.form-select(name='course_id')
+            option(selected disabled) Курс
+            each course in courses
+                if course_id.course_id == course.id
+                    option(value=`${course.id}` selected) #{course.name}
+                else 
+                    option(value=`${course.id}`) #{course.name}
+        h5 Добавьте контент (ссылку на ютуб видео)
+        textarea.form-control(name='content') #{section.content}
+    .d-flex.gap-3.mt-3
+        input.btn.btn-primary.align-self-start#addTest(type='submit' value='Сохранить' for='addSectionForm')
+        button.btn.btn-danger#deleteSection(type='button') Удалить тему
+
+block script 
+    script
+        include add_section.js
+    script.
+        $('#addTest').on('click', () => {
+            $('#addSectionForm').submit()
+        })
+        $('#addSectionForm').on('submit', function(e) {
+            e.preventDefault();
+            let formData = Object.fromEntries(new FormData(e.target).entries())
+            console.log(formData);
+            $.post(`/admin/addSection/#{id}`, formData)
+            .success(() => {
+                console.log('success')
+            })
+        })
+        $('#deleteSection').on('click', () => {
+            $.ajax({
+                url: `/admin/deleteSection/#{id}`,
+                type: 'DELETE',
+                success: function(result) {
+                    window.location.href = '/'
+                }
+            });
+        })
+        
+    

@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap');
+
+.header-logo h1 {
+    font-family: 'Cormorant';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 3.75rem;
+    line-height: 4.5rem;
+
+    text-transform: uppercase;
+
+    color: #0B4A72;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    cursor: pointer;
+}
+
+.header-logo h1:last-child {
+    font-size: 3rem;
+    transform: rotate(-20deg);
+}
+
+#dialog-form {
+    display: none;
+}
+
+.login-input, .password-input {
+    display: flex;
+    justify-content: space-between;
+}
+
+.asideAdminText[type='submit'], label, p {
+    font-family: 'Nunito' !important;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.25rem;
+
+    color: #282846;
+}
+
+aside {
+    width: 15%;
+}
+
+#courseSections {
+    font-size: 14px;
+    font-family: 'Nunito';
+}
+
+.categories {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #0B4A72;
+}
+
+.course_name {
+    color: #282846;
+}

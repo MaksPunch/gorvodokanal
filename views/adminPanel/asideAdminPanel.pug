@@ -1,0 +1,18 @@
+.d-flex.flex-column.justify-content-center.gap-4
+    h2.categories.asideAdminText Категории
+    .d-flex 
+        img.me-2(src='/public/img/home.svg')
+        form(action='/admin' method='get')
+            input.btn.btn-link.asideAdminText.text-dark.text-decoration-none.p-0(type='submit' value='Главная')
+    .d-flex 
+        img.me-2(src='/public/img/ppl.svg')
+        form(action='/admin/createCourse' method='post')
+            input.btn.btn-link.asideAdminText.text-dark.text-decoration-none.p-0(type='submit' value='Добавить курс') 
+    .d-flex 
+        img.me-2(src='/public/img/case.svg')
+        form(action='/admin/createSection' method='post')
+            input.btn.btn-link.asideAdminText.text-dark.text-decoration-none.p-0(type='submit' value='Добавить тему') 
+    .d-flex 
+        img.me-2(src='/public/img/home.svg')
+        form(action='/admin/createTest' method='post')  
+            input.btn.btn-link.asideAdminText.text-dark.text-decoration-none.p-0(type='submit' value='Добавить тест') 

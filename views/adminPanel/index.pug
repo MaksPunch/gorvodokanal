@@ -1,0 +1,20 @@
+extends layout.pug
+
+block content
+    .d-flex.justify-content-start.gap-5
+        .d-flex.flex-column.gap-2
+            h2 Курсы
+            ul.list-group
+                each course in courses 
+                    a.list-group-item.list-group-item-action(href=`/admin/coursePage/${course.id}`) Курс "#{course.name}"
+        .d-flex.flex-column.gap-2
+            h2 Темы
+            ul.list-group
+                each section in sections 
+                    a.list-group-item.list-group-item-action(href=`/admin/sectionPage/${section.id}`) Тема "#{section.name}"
+        .d-flex.flex-column.gap-2
+            h2 Тесты
+            ul.list-group
+                each test in tests
+                    a.list-group-item.list-group-item-action(href=`/admin/testPage/${test.id}`) Тест "#{test.name}"
+        

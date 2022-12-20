@@ -1,0 +1,16 @@
+extends ../layout.pug
+
+block aside
+    .d-flex.flex-column.justify-content-center.gap-1.w-15
+    each course in courses 
+        .d-flex.flex-column
+            h2.fs-6.course_name #{course.name}
+            ol.gap-2#courseSections(type=1)
+                each section in course.sections
+                    li.font-weight-normal
+                        a(href=`/sectionPage/${section.id}`).text-dark.text-decoration-none #{section.name}
+
+block content 
+    .d-flex.gap-4
+        h1.text-success Правильных ответов: #{rightCount}
+        h1.text-danger Неправильных ответов: #{wrongCount}

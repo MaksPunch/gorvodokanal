@@ -1,0 +1,19 @@
+extends ./sections/layout.pug
+
+block aside
+    .d-flex.flex-column.justify-content-center.gap-1.w-15
+    each course in courses 
+        .d-flex.flex-column
+            h2.fs-6.course_name #{course.name}
+            ol.gap-2#courseSections(type=1)
+                each section in course.sections
+                    li.font-weight-normal
+                        a(href=`/sectionPage/${section.id}`).text-dark.text-decoration-none #{section.name}
+
+block content
+        .d-flex.flex-column.gap-2
+            h2 Темы
+            ul.list-group
+                each course in courses 
+                    each section in course.sections 
+                        a.list-group-item.list-group-item-action(href=`/sectionPage/${section.id}`) Тема "#{section.name}"
