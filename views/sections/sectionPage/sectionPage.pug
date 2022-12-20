@@ -16,7 +16,10 @@ block aside
 
 block content
     h1.sectionHeader #{name}
-    iframe.ratio.ratio-16x9(width=640 height=480 src=`https://www.youtube.com/embed/${link}` title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+    if link == 1
+        p #{content}
+    else
+        iframe.ratio.ratio-16x9(width=640 height=480 src=`https://www.youtube.com/embed/${link}` title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
     form(action=`./testPage/${test_id}`)
         input.btn.btn-primary(type='submit' value='Перейти к тесту')
 

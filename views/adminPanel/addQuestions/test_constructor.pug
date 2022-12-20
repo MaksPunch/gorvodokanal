@@ -9,7 +9,7 @@ block content
     div.addTest.d-flex.flex-column.gap-2
         div#questionName
             h5 Название вопроса
-            textarea.form-control#name(name='name' placeholder='название вопроса' for='addTest')
+            textarea.form-control#name(name='name' placeholder='название вопроса' for='addTest' required)
         div#chooseQuestionType
             h5 Выберите тип вопроса
             .form-check.form-check-inline
@@ -24,19 +24,19 @@ block content
         div#questionAnswers.d-flex.flex-column.gap-2
             h5 Варианты ответов:
             div.input-group
-                input.form-control.answer#answer1(type='text' name='answer1' placeholder='вариант ответ 1' for='addTest' disabled=false)
+                input.form-control.answer#answer1(type='text' name='answer1' placeholder='вариант ответ 1' for='addTest' disabled=false required)
                 .input-group-text
                     input#answer1(type='checkbox' name='rightAnswer' for='addTest' value='1' disabled=false)
             div.input-group
-                input.form-control.answer#answer2(type='text' name='answer2' placeholder='вариант ответ 2' for='addTest' disabled=false)
+                input.form-control.answer#answer2(type='text' name='answer2' placeholder='вариант ответ 2' for='addTest' disabled=false required)
                 .input-group-text
                     input#answer2(type='checkbox' name='rightAnswer' for='addTest' value='2' disabled=false)
             div.input-group
-                input.form-control.answer#answer3(type='text' name='answer3' placeholder='вариант ответ 3' for='addTest' disabled=false)
+                input.form-control.answer#answer3(type='text' name='answer3' placeholder='вариант ответ 3' for='addTest' disabled=false required)
                 .input-group-text
                     input#answer3(type='checkbox' name='rightAnswer' for='addTest' value='3' disabled=false)
             div.input-group
-                input.form-control.answer#answer4(type='text' name='answer4' placeholder='вариант ответ 4' for='addTest' disabled=false)
+                input.form-control.answer#answer4(type='text' name='answer4' placeholder='вариант ответ 4' for='addTest' disabled=false required)
                 .input-group-text
                     input#answer4(type='checkbox' name='rightAnswer' for='addTest' value='4' disabled=false)
         button.align-self-start.btn.btn-primary#addAnswer(type='button') Добавить вариант ответа

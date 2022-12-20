@@ -18,6 +18,19 @@ function setFormData() {
     else {
         Array.from($('input[name=rightAnswer]:checked')).forEach(val => formData.rightAnswer.push($(val).val()))
     }
+    if ($('#name').val() == "") {
+        $('#name').get(0).setCustomValidity('Нужно ввести название вопроса')
+        return false;
+    }
+    $('input.answer:not([disabled])').each(function() {
+        if ($(this).val() == "") {
+            $(this).get(0).setCustomValidity('Нужно ввести вариант ответа')
+            formData = false;
+        }
+    })
+    if (!formData.rightAnswer.length) {
+        formData = false;
+    }
     return formData;
 }
 
@@ -51,8 +64,10 @@ const addTableRow = (formData) => {
 };
 
 $( '#addQuestion' ).on('click', function() {
-    const formData = setFormData();
-    postData(formData);
+    if (setFormData()) {
+        const formData = setFormData();
+        postData(formData);
+    }
 })
 
 //Обработчик запроса на удаление таблицы
@@ -74,7 +89,7 @@ $( '.deleteQuestion' ).live('click', function(e) {
 
 function addAnswer() {
     let lastAnswer = Number($('.answer:last').attr('id').match(/[0-9]+/).join(''))+1;
-    let inputAttrs = `id='answer${lastAnswer}' class='answer form-control' type='text' name='answer${lastAnswer}' placeholder='вариант ответ ${lastAnswer}' for='addTest disabled=false'`
+    let inputAttrs = `id='answer${lastAnswer}' class='answer form-control' type='text' name='answer${lastAnswer}' placeholder='вариант ответ ${lastAnswer}' for='addTest' disabled=false required`
     let rightAnswerType = $('input:radio[name=questionType]:checked').val() == 1 ? 'radio' : 'checkbox';
     let appendElement = `
     <div class='input-group'>
@@ -90,31 +105,30 @@ function addAnswer() {
 
 $('#addAnswer').on('click', () => addAnswer());
 
+let swapQuestionType = (type) => {
+    type = type == 1 ? 'radio' : 'checkbox'
+    $('input[name=rightAnswer]').each(function() {
+        $(this).prop('type', type)
+        $(this).removeAttr("disabled");
+    })
+    $('input.answer').each(function() {
+        $(this).removeAttr("disabled");
+    })
+    $('#questionAnswers div').not('div.input-group:first').show();
+    $('.input-group-text').show()
+    $('#addAnswer').show()
+}
+
 $('input:radio[name=questionType]').on('change', function() {
-    if (this.value == 1) {
-        $('input.answer').each(function() {
-            $(this).prop('type', 'radio')
-            $(this).prop('disabled', 'false')
-        })
-        $('#questionAnswers div').not('div.input-group:first').show();
-        $('.input-group-text').show()
-        $('#addAnswer').show()
-    }
-    else if (this.value == 2) {
-        $('input.answer').each(function() {
-            $(this).prop('type', 'checkbox')
-            $(this).prop('disabled', 'false')
-        })
-        $('#questionAnswers div').not('div.input-group:first').show();
-        $('.input-group-text').show()
-        $('#addAnswer').show()
-    }
-    else if (this.value == 3) {
+    if (this.value == 3) {
         $('input.answer').not(':first').each(function() {
-            $(this).prop('disabled', 'true')
+            $(this).prop('disabled', true)
         })
         $('#questionAnswers div').not('div.input-group:first').hide();
         $('.input-group-text').hide()
         $('#addAnswer').hide()
+    }
+    else {
+        swapQuestionType(this.value)
     }
 })

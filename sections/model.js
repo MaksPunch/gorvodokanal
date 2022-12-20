@@ -76,7 +76,9 @@ module.exports = {
             throw err;
           if (result[0][0].open) {
             //Выбор кода видео из ссылки на видео
-            var link = result[0][0].content.match(/(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/)[1];
+            console.log(result[0][0].content)
+            var link = result[0][0].content.match(/(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/) || 1;
+            link = link.length > 1 ? link[1] : link
             let renderVariables = Object.assign({ link: link }, result[0][0], { courses: sortCoursesAndSections(result[1], result[2]) });
             console.log(renderVariables);
             res.render('./sections/sectionPage/sectionPage', renderVariables);
